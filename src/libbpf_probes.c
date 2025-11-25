@@ -97,6 +97,11 @@ __u32 get_kernel_version(void)
 	if (sscanf(info.release, "%u.%u.%u", &major, &minor, &patch) != 3)
 		return 0;
 
+	/* Truncate the sub-level version to 255,
+	 * to match LINUX_VERSION_CODE in kernel space. */
+	if (patch > 255)
+		patch = 255;
+
 	return KERNEL_VERSION(major, minor, patch);
 }
 
